@@ -3,21 +3,29 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use App\Traits\Uuids;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasApiTokens;
+    use Notifiable;
+    use SoftDeletes;
+    use Uuids;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $keyType = 'string';
+    protected $guard_name = 'web';
+    public $incrementing = false;
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'title','name','surname','email','contact_number','profile_picture_url','date_of_birth','address','race','gender','api_token','email_verified_at','password'
     ];
 
     /**
@@ -37,4 +45,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_users','user_id');
+    }
+
+
+    /**
+     * Checks if User has access to $permissions.
+     */
+    public function hasAccess(array $permissions) : bool
+    {
+        // check if the permission is available in any role
+        foreach ($this->roles as $role) {
+            if($role->hasAccess($permissions)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
