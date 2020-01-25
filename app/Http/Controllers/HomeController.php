@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,16 +15,30 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
+        $this->middleware(['auth','verified']);    }
+
     }
+
 
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        return view('home');
+//        dd();
+        $user = Auth::user();
+        $role = $user->roles[0];
+        if($role->name=='admin'){
+            return view('dashboard');
+        }else if($role->name=='student'){
+            return view('student-dashboard');
+        }else if($role->name=='vendor'){
+            return view('vendor-dashboard');
+        }
+
     }
 }
