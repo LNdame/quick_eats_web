@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -13,11 +15,16 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+
         $this->middleware(['auth','verified']);    }
+
+    }
+
 
     /**
      * Show the application dashboard.
      *
+
      * @return \Illuminate\View\View
      */
     public function index()
@@ -32,5 +39,6 @@ class HomeController extends Controller
         }else if($role->name=='vendor'){
             return view('vendor-dashboard');
         }
+
     }
 }

@@ -1,3 +1,4 @@
+
 @extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => '', 'title' => __('Material Dashboard')])
 
 @section('content')
@@ -66,5 +67,6 @@
       </form>
     </div>
   </div>
+
 </div>
 @endsection
