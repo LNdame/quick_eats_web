@@ -1,12 +1,8 @@
 <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
-  <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-      Tip 2: you can also add an image using data-image tag
-  -->
-  <div class="logo">
+  <div class="logo text-center">
     <a href="#">
-      <img src="{{asset('images/logo.png')}}" width="80%"/>
+      <img src="{{asset('images/logo.png')}}" width="50%;"/>
     </a>
   </div>
   <div class="sidebar-wrapper">
