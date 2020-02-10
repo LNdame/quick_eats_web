@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -32,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/login';
 
     public function showRegistrationForm()
     {
@@ -73,7 +74,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->guard()->login($user);
+//        $this->guard()->login($user);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
@@ -87,6 +88,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $token = Str::random(60);
         $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
@@ -94,10 +96,10 @@ class RegisterController extends Controller
             'contact_number' => $data['contact_number'],
             'gender'=>$data['gender'],
             'password' => Hash::make($data['password']),
+//            'api_token' => $token,
         ]);
 
        $user->roles()->attach($data['role']);
-//       dd($user);
         return $user;
     }
 }

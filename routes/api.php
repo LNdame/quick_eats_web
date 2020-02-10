@@ -12,7 +12,15 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('roles','MobileAuthenticator@getRoles');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login','MobileAuthenticator@login');
+Route::post('register','MobileAuthenticator@register');
+
+Route::group(['middleware' => 'jwt.auth'], function () {
+
+    Route::post('profile-update/{user}','ProfileController@updateUserMobile');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });
