@@ -1,3 +1,4 @@
+
 @extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'home', 'title' => __('Material Dashboard')])
 
 @section('content')
@@ -21,15 +22,6 @@
                 
                 @if (Route::has('verification.resend'))
                     {{ __('If you did not receive the email') }},  
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
-                @endif
-              </p>
-            </div>
-          </div>
-      </div>
-  </div>
+
 </div>
 @endsection

@@ -1,3 +1,4 @@
+
 @extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'register', 'title' => __('Patient Registration')])
 
 @section('content')
@@ -237,4 +238,5 @@
             });
         </script>
     @endpush
+
 @endsection
