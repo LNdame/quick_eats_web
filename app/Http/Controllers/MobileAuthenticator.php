@@ -63,7 +63,8 @@ class MobileAuthenticator extends Controller
             'messsage'=>$message,
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => 'never'
         ],200);
+//        'expires_in' => auth('api')->factory()->getTTL() * 60
     }
 }
