@@ -32,6 +32,12 @@
           <span class="sidebar-normal"> {{ __('Users') }} </span>
         </a>
       </li>
+      <li class="nav-item{{ $activePage == 'restraurants-management' ? ' active' : '' }}">
+        <a class="nav-link" href="#">
+          <i class="material-icons">kitchen</i>
+          <span class="sidebar-normal"> {{ __('Restaurants') }} </span>
+        </a>
+      </li>
       <li class="nav-item{{ $activePage == 'vendor-management' ? ' active' : '' }}">
         <a class="nav-link" href="#">
           <i class="material-icons">store</i>
