@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Restaurant;
+use App\Vendor;
 use Illuminate\Http\Request;
 
-class RestraurantController extends Controller
+class VendorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,6 @@ class RestraurantController extends Controller
     public function index()
     {
         //
-        return view('restraurants.view');
     }
 
     /**
@@ -42,10 +41,10 @@ class RestraurantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Restaurant  $restraurant
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function show(Restaurant $restraurant)
+    public function show(Vendor $vendor)
     {
         //
     }
@@ -53,10 +52,10 @@ class RestraurantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Restaurant  $restraurant
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Restaurant $restraurant)
+    public function edit(Vendor $vendor)
     {
         //
     }
@@ -65,10 +64,10 @@ class RestraurantController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Restaurant  $restraurant
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurant $restraurant)
+    public function update(Request $request, Vendor $vendor)
     {
         //
     }
@@ -76,10 +75,10 @@ class RestraurantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Restaurant  $restraurant
+     * @param  \App\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Restaurant $restraurant)
+    public function destroy(Vendor $vendor)
     {
         //
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePromotionsTable extends Migration
+class CreateVendorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('promotions', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->uuid('restaurant_id');
-            $table->string('description')->nullable();
+            $table->string('name');
+            $table->uuid('category_id')->nullable();
+            $table->string('contact_person_name')->nullable();
+            $table->string('contact_person_surname')->nullable();
+            $table->string('contact_person_contact_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 
@@ -30,6 +33,6 @@ class CreatePromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promotions');
+        Schema::dropIfExists('vendors');
     }
 }
