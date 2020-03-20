@@ -15,14 +15,14 @@ class CreateVendorsTable extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
+            $table->string('trading_name');
+            $table->string('email');
             $table->uuid('category_id')->nullable();
             $table->string('contact_person_name')->nullable();
             $table->string('contact_person_surname')->nullable();
-            $table->string('contact_person_contact_number')->nullable();
+            $table->string('contact_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

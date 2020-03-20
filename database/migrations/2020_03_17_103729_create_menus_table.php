@@ -19,6 +19,7 @@ class CreateMenusTable extends Migration
             $table->uuid('restaurant_id');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

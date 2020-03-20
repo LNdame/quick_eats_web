@@ -17,6 +17,10 @@ class MenuController extends Controller
         //
     }
 
+    public function getMenuItems(Menu $menu){
+        return response()->json(['menu_with_items'=>$menu->load('menu_items')],200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

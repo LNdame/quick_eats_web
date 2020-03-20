@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Restaurant;
 use Illuminate\Http\Request;
 
-class RestraurantController extends Controller
+class RestaurantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +16,18 @@ class RestraurantController extends Controller
     {
         //
         return view('restraurants.view');
+    }
+
+    public function getRestaurants(){
+        $restaurants = Restaurant::with('menus')->get();
+
+        return response()->json(['restaurants'=>$restaurants],200);
+    }
+
+    public function getRestaurant(Restaurant $restaurant){
+
+        $restaurant_cur = $restaurant->load('menus');
+        return response()->json(['restaurant'=>$restaurant_cur],200);
     }
 
     /**

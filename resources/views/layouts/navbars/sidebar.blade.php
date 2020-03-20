@@ -39,7 +39,7 @@
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'vendor-management' ? ' active' : '' }}">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{url('vendors')}}">
           <i class="material-icons">store</i>
           <span class="sidebar-normal"> {{ __('Vendors') }} </span>
         </a>

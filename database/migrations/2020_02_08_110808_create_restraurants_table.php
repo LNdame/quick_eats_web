@@ -13,14 +13,16 @@ class CreateRestraurantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('restraurants', function (Blueprint $table) {
+        Schema::create('restaurants', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('restaurant_name')->nullable();
             $table->string('description')->nullable();
             $table->string('address')->nullable();
             $table->string('business_hours')->nullable();
+            $table->uuid('vendor_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('vendor_id')->references('id')->on('vendors');
         });
     }
 
