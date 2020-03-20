@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Requests\UserRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -83,5 +84,11 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+    }
+
+    public function userVerify(User $user){
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+        return redirect('login')->withStatus('Account verified successfully. Proceed to login');
     }
 }

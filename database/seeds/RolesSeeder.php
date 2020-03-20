@@ -27,7 +27,7 @@ class RolesSeeder extends Seeder
             'vendor-view' => true,
         ];
 
-        $student_permissions = [
+        $customer_permissions = [
             'student-delete' => true,
             'student-add' => true,
             'student-update' => true,
@@ -41,10 +41,10 @@ class RolesSeeder extends Seeder
             'guard_name'=>'web'
         ]);
 
-        $student = Role::create([
-            'name' => 'student',
-            'display_name'=>'Student',
-            'permissions' =>$student_permissions,
+        $buyer = Role::create([
+            'name' => 'customer',
+            'display_name'=>'Customer',
+            'permissions' =>$customer_permissions,
             'guard_name'=>'web'
         ]);
 
