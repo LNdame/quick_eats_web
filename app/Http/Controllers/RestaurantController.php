@@ -15,7 +15,7 @@ class RestaurantController extends Controller
     public function index()
     {
         //
-        return view('restraurants.view');
+        return view('restraurants.index');
     }
 
     public function getRestaurants(){
