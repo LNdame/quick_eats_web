@@ -158,6 +158,55 @@
                                     </div>
                                 </div>
 
+                            <div id="trading-name-div" class="row" style="margin-top: 1em;">
+                                <div  class="col-md-6">
+                                    <div class="bmd-form-group{{ $errors->has('trading_name') ? ' has-danger' : '' }}">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                  <span class="input-group-text">
+                                                      <i class="material-icons">business</i>
+                                                  </span>
+                                            </div>
+                                            <input type="tel" name="trading_name" class="form-control"
+                                                   placeholder="{{ __('Trading Name...') }}"
+                                                   value="{{ old('trading_name') }}" required>
+                                        </div>
+                                        @if ($errors->has('trading_name'))
+                                            <div id="trading_name-error" class="error text-danger pl-3"
+                                                 for="trading_name"
+                                                 style="display: block;">
+                                                <strong>{{ $errors->first('trading_name') }}</strong>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bmd-form-group{{ $errors->has('category_id') ? ' has-danger' : '' }} mt-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">streetview</i>
+                                      </span>
+                                            </div>
+                                            <select class="form-control js-example-basic-single" id="category_id" name="category_id"
+                                                    required>
+                                                <option value="99999">Category</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @if ($errors->has('category_id'))
+                                            <div id="gender-error" class="error text-danger pl-3" for="category_id"
+                                                 style="display: block;">
+                                                <strong>{{ $errors->first('category_id') }}</strong>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row" style="margin-top: 1em;">
                                 <div class="col-md-6">
                                     <div class="bmd-form-group{{ $errors->has('password') ? ' has-danger' : '' }} mt-3">
@@ -235,6 +284,18 @@
         <script>
             $(document).ready(function () {
                 $('select').select2();
+                $('#trading-name-div').hide();
+                $('#role').change(function(){
+                    let str ='';
+                    $( "#role option:selected" ).each(function() {
+                        str += $( this ).text();
+                    });
+                   if(str.toLowerCase()=='vendor'){
+                       $('#trading-name-div').show();
+                   }else{
+                       $('#trading-name-div').hide();
+                   }
+                });
             });
         </script>
     @endpush

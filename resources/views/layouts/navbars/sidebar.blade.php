@@ -78,7 +78,7 @@
           </div>
         </li>
         <li class="nav-item{{ $activePage == 'restraurants-management' ? ' active' : '' }}">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{{url('vendor-restaurants')}}">
             <i class="material-icons">kitchen</i>
             <span class="sidebar-normal"> {{ __('Restaurants') }} </span>
           </a>

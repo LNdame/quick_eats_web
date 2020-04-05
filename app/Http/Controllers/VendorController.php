@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Mail\RegistrationInvitationMailable;
+use App\Restaurant;
 use App\Role;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,6 +26,36 @@ class VendorController extends Controller
     {
         //
         return view('vendors.index');
+    }
+
+
+    public function getVendorRestaurants(){
+        $user = Auth::user();
+        $vendor = $user->vendor;
+        if(isset($vendor))
+         $restaurants = $vendor->restaurants;
+        else{
+            $restaurants = Restaurant::where('vendor_id',$user->id)->get();
+            $restaurants->load('vendor');
+        }
+
+        return DataTables::of($restaurants)
+            ->addColumn('action',function($restaurant){
+                $edit_url = "vendor-edit-restaurant/".$restaurant->id.'/edit';
+                $delete_url = "restaurants-delete/".$restaurant->id."#restaurants-table";
+                return '<a class="" href=' . $edit_url . '  style="margin-left:1em;color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red;margin-left:1em;" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" > <i class="material-icons">delete_forever</i> </a>';
+            })->addColumn('vendor',function($restaurant){
+                if(isset($restaurant->vendor))
+                    return $restaurant->vendor->trading_name;
+                else
+                    return '';
+            })
+            ->rawColumns(['vendor','action'])
+            ->make(true);
+    }
+
+    public function vendorRestaurants(){
+        return view('vendor-restaurants.index');
     }
 
     public function getVendorsWeb(){
@@ -65,6 +97,18 @@ class VendorController extends Controller
         //
         $categories = Category::all();
         return view('vendors.create',compact('categories'));
+    }
+
+    public function vendorCreateRestaurant(){
+        $categories = Category::all();
+        $user = Auth::user();
+        if(isset($user->vendor))
+            $vendor_id = $user->vendor->id;
+        else{
+            $vendor_id = $user->id;
+        }
+
+        return view('vendor-restaurants.create',compact('categories','vendor_id'));
     }
 
     /**

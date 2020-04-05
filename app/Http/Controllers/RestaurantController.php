@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Restaurant;
 use App\Vendor;
 use Illuminate\Http\Request;
@@ -85,6 +86,18 @@ class RestaurantController extends Controller
         }
     }
 
+    public function vendorSaveRestaurant(Request $request){
+        DB::beginTransaction();
+        try{
+            $restaurant = Restaurant::create($request->all());
+            DB::commit();
+            return redirect('vendor-restaurants')->withStatus('Restaurant saved successfully');
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->withStatus('An error occurred while saving the restaurant. '.$e->getMessage());
+        }
+    }
+
     public function saveVendorRestaurant(Request $request){
         DB::beginTransaction();
         $input = $request->input(['form-data']);
@@ -117,6 +130,29 @@ class RestaurantController extends Controller
         }
     }
 
+    public function vendorEditRestaurant(Restaurant $restaurant){
+        $categories = Category::all();
+        $user = Auth::user();
+        if(isset($user->vendor))
+            $vendor_id = $user->vendor->id;
+        else{
+            $vendor_id = $user->id;
+        }
+
+        return view('vendor-restaurants.edit',compact('categories','vendor_id','restaurant'));
+    }
+
+    public function updateVendorRestaurant(Request $request,Restaurant $restaurant){
+        DB::beginTransaction();
+        try{
+            $restaurant->update($request->all());
+            DB::commit();
+            return redirect('vendor-restaurants')->withStatus('Restaurant updated successfully');
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->withStatus('An error occurred while updating the restaurant. '.$e->getMessage());
+        }
+    }
     /**
      * Display the specified resource.
      *

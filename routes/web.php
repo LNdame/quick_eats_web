@@ -21,6 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('account-verification/{user}','UserController@userVerify');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::post('vendor-restaurants/{restaurant}','RestaurantController@updateVendorRestaurant');
+
+    Route::get('vendor-edit-restaurant/{restaurant}/edit','RestaurantController@vendorEditRestaurant');
+    Route::post('vendor-save-restaurant','RestaurantController@vendorSaveRestaurant');
+    Route::get('vendor-restaurants','VendorController@vendorRestaurants');
+    Route::get('get-vendor-restaurants','VendorController@getVendorRestaurants')->name('get-vendor-restaurants');
+    Route::get('vendor-restaurants-create','VendorController@vendorCreateRestaurant');
+
     Route::resource('vendors','VendorController');
     Route::get('vendor-view/{vendor}','VendorController@show');
     Route::get('get-system-users','UserController@getSystemUsers')->name('get-system-users');
