@@ -22,6 +22,10 @@ Route::get('account-verification/{user}','UserController@userVerify');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('vendors','VendorController');
+    Route::get('vendor-view/{vendor}','VendorController@show');
+
+    Route::resource('restaurants','RestaurantController');
+    Route::get('get-restaurants','RestaurantController@adminGetRestaurants')->name('get-restaurants');
     Route::get('get-vendors','VendorController@getVendorsWeb')->name('get-vendors');
     Route::get('vendor-delete/{vendor}','VendorController@destroy');
 

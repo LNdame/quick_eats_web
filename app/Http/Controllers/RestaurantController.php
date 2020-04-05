@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Restaurant;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class RestaurantController extends Controller
 {
@@ -15,7 +16,20 @@ class RestaurantController extends Controller
     public function index()
     {
         //
-        return view('restraurants.index');
+        return view('restaurants.index');
+    }
+
+    public function adminGetRestaurants(){
+
+        $restaurants = Restaurant::all();
+        return DataTables::of($restaurants)
+            ->addColumn('action',function($restaurant){
+                $edit_url = "restaurants/".$restaurant->id.'/edit';
+                $view_url = "restaurants-view/".$restaurant->id;
+                $delete_url = "restaurants-delete/".$restaurant->id."#restaurants-table";
+                return '<a class="" href=' . $view_url . ' style="color:green!important;"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . '  style="margin-left:1em;" style="color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" style="margin-left:1em;"> <i class="material-icons">delete_forever</i> </a>';
+            })->rawColumns(['contact_person','action'])
+            ->make(true);
     }
 
     public function getRestaurants(){
@@ -38,6 +52,7 @@ class RestaurantController extends Controller
     public function create()
     {
         //
+        return view('restaurants.create');
     }
 
     /**

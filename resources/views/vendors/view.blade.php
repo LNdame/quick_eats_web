@@ -5,13 +5,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ url('vendors/'.$vendor->id) }}" autocomplete="off" class="form-horizontal">
+          <form autocomplete="off" class="form-horizontal">
             @csrf
-            @method('put')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Edit Vendor') }}</h4>
+                <h4 class="card-title">{{ __('Vendor Details') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
@@ -20,21 +19,10 @@
                     <a href="{{ route('vendors.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                   </div>
                   <div class="col-md-6 text-right">
-                    <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#restaurants-modal">{{ __('Add Restaurants') }}</a>
+                    <a href="{{ url('vendors/'.$vendor->id.'/edit') }}" class="btn btn-sm btn-success">{{ __('Edit Vendor') }}</a>
                   </div>
                 </div>
-                @if (session('status'))
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <i class="material-icons">close</i>
-                        </button>
-                        <span>{{ session('status') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                @endif
+
                 <div class="bmd-form-group text-center">
                   <h4>Vendor Details</h4>
                 </div>
@@ -151,7 +139,6 @@
                         </div>
                         <select class="form-control js-example-basic-single" id="category_id" name="category_id"
                                 required>
-                          <option value="99999">Select Category</option>
                           @foreach($categories as $category)
                             <option value="{{$category->id}}" {{$vendor->category_id==$category->id?'selected':''}}>{{$category->category_name}}</option>
                           @endforeach
@@ -166,10 +153,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="row"  style="margin-top: 2em;">
-                  <button type="submit" style="margin-left: 45%; margin-top: 2em;" class="btn btn-primary ">{{ __('Update Vendor') }}</button>
-                </div>
-                <hr/>
+
+                <hr style="margin-top: 3em;"/>
                 <div class="row">
                   <div class="col-md-12">
                     <h4 class="text-center">Vendor Current Restaurants</h4>
@@ -184,7 +169,6 @@
                         <th>Description</th>
                         <th>Business hours</th>
                         <th>Contact Number</th>
-                        <th class="text-right">Actions</th>
                       </tr>
                       </thead>
                       <tbody id="restaurants-table-body">
@@ -192,11 +176,7 @@
                        <tr></td> <td colspan="5">No Restaurants Yet</td>  </tr>
                         @else
                         @foreach($vendor->restaurants as $restaurant)
-                          <tr><td>{{$restaurant->restaurant_name}}</td><td>{{$restaurant->description}}</td><td>{{$restaurant->business_hours}}</td><td>{{$restaurant->contact_number}}</td><td class="td-actions text-right">
-                              <button id="{{$restaurant->id}}" type="button" rel="tooltip" title="Delete Restaurant" onclick="confirm_delete(this)" class="btn btn-danger">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td></tr>
+                          <tr><td>{{$restaurant->restaurant_name}}</td><td>{{$restaurant->description}}</td><td>{{$restaurant->business_hours}}</td><td>{{$restaurant->contact_number}}</td></tr>
                       @endforeach
                       @endif
                       </tbody>

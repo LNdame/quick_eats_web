@@ -25,15 +25,8 @@
           <span class="sidebar-normal"> {{ __('Reports') }} </span>
         </a>
       </li>
-
-      <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('user.index') }}">
-          <i class="material-icons">supervisor_account</i>
-          <span class="sidebar-normal"> {{ __('Users') }} </span>
-        </a>
-      </li>
       <li class="nav-item{{ $activePage == 'restraurants-management' ? ' active' : '' }}">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{url('restaurants')}}">
           <i class="material-icons">kitchen</i>
           <span class="sidebar-normal"> {{ __('Restaurants') }} </span>
         </a>
@@ -42,6 +35,12 @@
         <a class="nav-link" href="{{url('vendors')}}">
           <i class="material-icons">store</i>
           <span class="sidebar-normal"> {{ __('Vendors') }} </span>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('user.index') }}">
+          <i class="material-icons">supervisor_account</i>
+          <span class="sidebar-normal"> {{ __('Users') }} </span>
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">

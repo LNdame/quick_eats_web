@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'practice-management', 'titlePage' => __('Restaurant Management')])
+@extends('layouts.app', ['activePage' => 'restraurants-management', 'titlePage' => __('Restaurant Management')])
 
 @section('content')
   <div class="content">
@@ -28,10 +28,10 @@
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table style="width:100%;" id="vendors-table" class="table">
+                  <table style="width:100%;" id="restaurants-table" class="table">
                     <thead class=" text-primary">
                     <th>
-                      {{ __('Restaurant name') }}
+                      {{ __('Restaurant Name') }}
                     </th>
                     <th>
                       {{ __('Description') }}
@@ -78,9 +78,10 @@
           ajax: '{{route('get-restaurants')}}',
           columns: [
             {data: 'restaurant_name', name: 'restaurant_name'},
-            {data: 'descrption', name: 'description'},
+            {data: 'description', name: 'description'},
             {data: 'address', name: 'address'},
             {data: 'business_hours', name: 'business_hours'},
+            {data: 'contact_number', name: 'contact_number'},
             {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
           ]

@@ -36,10 +36,10 @@ class VendorController extends Controller
                 return isset($vendor->category)? $vendor->category->category_name:'';
             })
             ->addColumn('action',function($vendor){
-                $edit_url = "vendor/".$vendor->id.'/edit';
+                $edit_url = "vendors/".$vendor->id.'/edit';
                 $view_url = "vendor-view/".$vendor->id;
                 $delete_url = "vendor-delete/".$vendor->id."#vendors-table";
-                return '<a class="" href=' . $view_url . '  style="margin-left:1em;" style="color:green!important;"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . '  style="margin-left:1em;" style="color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" style="margin-left:1em;"> <i class="material-icons">delete_forever</i> </a>';
+                return '<a rel="tooltip" href=' . $view_url . '  style="margin-left:1em;" style="color:green!important;" title="View Vendor"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . ' rel="tooltip" title="Edit Vendor"  style="margin-left:1em;" style="color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red" rel="tooltip" title="Delete Vendor" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" style="margin-left:1em;"> <i class="material-icons">delete_forever</i> </a>';
             })->rawColumns(['contact_person','action'])
             ->make(true);
     }
@@ -104,6 +104,8 @@ class VendorController extends Controller
     public function show(Vendor $vendor)
     {
         //
+        $categories = Category::all();
+        return view('vendors.view',compact('categories','vendor'));
     }
 
     /**
@@ -115,6 +117,8 @@ class VendorController extends Controller
     public function edit(Vendor $vendor)
     {
         //
+        $categories = Category::all();
+        return view('vendors.edit',compact('vendor','categories'));
     }
 
     /**
@@ -127,6 +131,17 @@ class VendorController extends Controller
     public function update(Request $request, Vendor $vendor)
     {
         //
+//        dd($request->all(),$vendor);
+        DB::beginTransaction();
+        try{
+            $vendor->update($request->all());
+            DB::commit();
+            return back()->withStatus('Vendor updated successfully. ');
+
+        }catch (\Exception $e){
+            DB::rollBack();
+            return back()->withStatus('An error occurred while updating the vendor. '.$e->getMessage());
+        }
     }
 
     /**

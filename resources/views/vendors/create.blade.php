@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'patient-management', 'titlePage' => __('Vendors Management')])
+@extends('layouts.app', ['activePage' => 'vendor-management', 'titlePage' => __('Vendors Management')])
 
 @section('content')
   <div class="content">
@@ -166,7 +166,7 @@
 
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Save Vendor') }}</button>
+                <button type="submit" class="btn btn-success">{{ __('Save Vendor') }}</button>
               </div>
             </div>
           </form>
