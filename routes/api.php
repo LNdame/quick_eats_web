@@ -21,6 +21,8 @@ Route::get('get-vendors-with-restaurants','VendorController@getVendorsWithRestau
 Route::get('get-restaurants','RestaurantController@getRestaurants');
 Route::get('get-restaurant/{restaurant}','RestaurantController@getRestaurant');
 Route::get('get-menu-items/{menu}','MenuController@getMenuItems');
+Route::post('store-restaurant','RestaurantController@storeAPI');
+Route::post('update-restaurant/{restaurant)','RestaurantController@updateApi');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
 

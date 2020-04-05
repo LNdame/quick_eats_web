@@ -12,4 +12,8 @@ class Restaurant extends BaseModel
     public function menus(){
         return $this->hasMany(Menu::class,'restaurant_id','id');
     }
+
+    public function vendor(){
+        return $this->belongsTo(Vendor::class,'vendor_id','id');
+    }
 }

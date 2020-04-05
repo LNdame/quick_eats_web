@@ -25,6 +25,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('vendor-view/{vendor}','VendorController@show');
     Route::get('get-system-users','UserController@getSystemUsers')->name('get-system-users');
     Route::get('user-delete/{user}','UserController@destroy');
+    Route::get('restaurants-delete/{restaurant}','RestaurantController@destroy');
+    Route::post('save-vendor-restaurant','RestaurantController@saveVendorRestaurant');
+    Route::get('admin-remove-vendor-restaurant/{restaurant}','RestaurantController@destroy');
 
     Route::resource('menu-items','MenuItemController');
     Route::resource('menus','MenuController');

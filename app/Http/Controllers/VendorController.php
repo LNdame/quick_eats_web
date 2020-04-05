@@ -26,8 +26,8 @@ class VendorController extends Controller
     }
 
     public function getVendorsWeb(){
-        $vendors = Vendor::with('category')->get();
 
+        $vendors = Vendor::with('category')->get();
         return DataTables::of($vendors)
             ->addColumn('contact_person',function($vendor){
                 return $vendor->contact_person_name.' '.$vendor->contact_person_surname;
@@ -118,7 +118,10 @@ class VendorController extends Controller
     {
         //
         $categories = Category::all();
-        return view('vendors.edit',compact('vendor','categories'));
+        $vendors = Vendor::all();
+        $vendorCur = $vendor;
+
+        return view('vendors.edit',compact('vendorCur','categories','vendors'));
     }
 
     /**

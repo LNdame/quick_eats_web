@@ -24,7 +24,7 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('restaurants.create') }}" class="btn btn-sm btn-primary">{{ __('Add Restaurant') }}</a>
+                    <a href="{{ route('restaurants.create') }}" class="btn btn-sm btn-success">{{ __('Add Restaurant') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
@@ -33,6 +33,7 @@
                     <th>
                       {{ __('Restaurant Name') }}
                     </th>
+                    <th>Vendor</th>
                     <th>
                       {{ __('Description') }}
                     </th>
@@ -78,6 +79,7 @@
           ajax: '{{route('get-restaurants')}}',
           columns: [
             {data: 'restaurant_name', name: 'restaurant_name'},
+            {data: 'vendor', name: 'vendor'},
             {data: 'description', name: 'description'},
             {data: 'address', name: 'address'},
             {data: 'business_hours', name: 'business_hours'},
