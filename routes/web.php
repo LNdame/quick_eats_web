@@ -26,6 +26,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('get-system-users','UserController@getSystemUsers')->name('get-system-users');
     Route::get('user-delete/{user}','UserController@destroy');
 
+    Route::resource('menu-items','MenuItemController');
+    Route::resource('menus','MenuController');
+    Route::get('menu-delete/{menu}','MenuController@destroy');
+    Route::get('get-restaurant-menus','MenuController@getRestaurantMenus')->name('get-restaurant-menus');
+
     Route::resource('restaurants','RestaurantController');
     Route::get('get-restaurants','RestaurantController@adminGetRestaurants')->name('get-restaurants');
     Route::get('get-vendors','VendorController@getVendorsWeb')->name('get-vendors');

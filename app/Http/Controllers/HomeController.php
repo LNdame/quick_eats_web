@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
 
-        $this->middleware(['auth','verified']);    }
+        $this->middleware(['auth','verified']);
 
     }
 
@@ -33,11 +33,11 @@ class HomeController extends Controller
         $user = Auth::user();
         $role = $user->roles[0];
         if($role->name=='admin'){
-            return view('dashboard');
-        }else if($role->name=='student'){
-            return view('student-dashboard');
+            return view('dashboard',compact('role'));
+        }else if($role->name=='customer'){
+            return view('student-dashboard',compact('role'));
         }else if($role->name=='vendor'){
-            return view('vendor-dashboard');
+            return view('vendor-dashboard',compact('role'));
         }
 
     }
