@@ -39,7 +39,7 @@ class VendorController extends Controller
                 $edit_url = "vendors/".$vendor->id.'/edit';
                 $view_url = "vendor-view/".$vendor->id;
                 $delete_url = "vendor-delete/".$vendor->id."#vendors-table";
-                return '<a rel="tooltip" href=' . $view_url . '  style="margin-left:1em;" style="color:green!important;" title="View Vendor"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . ' rel="tooltip" title="Edit Vendor"  style="margin-left:1em;" style="color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red" rel="tooltip" title="Delete Vendor" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" style="margin-left:1em;"> <i class="material-icons">delete_forever</i> </a>';
+                return '<a rel="tooltip" href=' . $view_url . '  style="margin-left:1em;color:green!important;" title="View Vendor"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . ' rel="tooltip" title="Edit Vendor"  style="margin-left:1em;color:blue!important;"><i class="material-icons">create</i></a><a class="" style="color:red;margin-left:1em;" rel="tooltip" title="Delete Vendor" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)"> <i class="material-icons">delete_forever</i> </a>';
             })->rawColumns(['contact_person','action'])
             ->make(true);
     }

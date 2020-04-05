@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
@@ -20,6 +22,41 @@ class UserController extends Controller
         return view('users.index', ['users' => $model->paginate(15)]);
     }
 
+    public function getSystemUsers(){
+        $users = User::all();
+        return DataTables::of($users)
+            ->addColumn('action',function($user){
+                $edit_url = "user/".$user->id.'/edit';
+                $delete_url = "user-delete/".$user->id."#users-table";
+                return '<a class="" href=' . $edit_url . '  style="margin-left:1em;" style="color:green"><i class="material-icons">create</i></a><a class="" style="color:red" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)" style="margin-left:1em;"> <i class="material-icons">delete_forever</i> </a>';
+            })->addColumn('account_status',function($user){
+                if($user->account_status=='in-active'){
+                    return '<span class="badge badge-danger">In Active</span>';
+                }else{
+                    return '<span class="badge badge-success">Active</span>';
+                }
+            })
+            ->addColumn('role',function($user){
+                if(count($user->roles)>0){
+                    $role = $user->roles[0]->name;
+                    if($role == 'admin'){
+                        return '<span class="badge badge-primary">Admin</span>';
+                    }else if($role =='vendor'){
+                        return '<span class="badge badge-success">Vendor</span>';
+                    }
+                    else if($role =='customer'){
+                        return '<span class="badge badge-info">Customer</span>';
+                    }
+                    else{
+                        return '<span class="badge badge-warning">'.$role.'</span>';
+                    }
+                }else{
+                    return '';
+                }
+
+            })->rawColumns(['action','role','account_status'])
+            ->make(true);
+    }
     /**
      * Show the form for creating a new user
      *
@@ -81,9 +118,15 @@ class UserController extends Controller
      */
     public function destroy(User  $user)
     {
-        $user->delete();
-
-        return redirect()->route('user.index')->withStatus(__('User successfully deleted.'));
+        DB::beginTransaction();
+        try{
+            $user->delete();
+            DB::commit();
+            return response()->json(['message'=>'User deleted successfully'],200);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(['message'=>'An error occurred while deleting the user. '.$e->getMessage()],500);
+        }
     }
 
     public function userVerify(User $user){
