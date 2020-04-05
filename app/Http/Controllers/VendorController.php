@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Mail\RegistrationInvitationMailable;
+use App\Role;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
@@ -80,10 +81,11 @@ class VendorController extends Controller
         try{
             $password = $request->input('contact_person_name').'@'.Carbon::now()->year;
             $request->merge(['password'=>bcrypt($password)]);
-            $vendor = Vendor::create($request->all());
             $input = $request->all();
-            $user = User::create(['vendor_id'=>$vendor->id,'password'=>$input['password'],'email'=>$input['email'],'name'=>$input['contact_person_name'],'surname'=>$input['contact_person_surname'],'contact_number'=>$input['contact_number']]);
-
+            $user = User::create(['password'=>$input['password'],'email'=>$input['email'],'name'=>$input['contact_person_name'],'surname'=>$input['contact_person_surname'],'contact_number'=>$input['contact_number']]);
+            $request->merge(['user_id'=>$user->id]);
+            $vendor = Vendor::create($request->all());
+            $user->roles()->attach(Role::where('name','vendor')->first()->id);
             $url = env('APP_URL').'/account-verification/'.$user->id;
 
             Mail::to($vendor->email)->send(new RegistrationInvitationMailable($user,$password,$url,$vendor));

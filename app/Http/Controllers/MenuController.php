@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -21,11 +22,10 @@ class MenuController extends Controller
     }
 
     public function getRestaurantMenus(){
-        $menus = Menu::all();
+        $vendor = Auth::user();
+        $menus = Menu::with('restaurant')->get();
         return DataTables::of($menus)
-            ->addColumn('restaurant',function($menu){
-                return $menu->restaurant->restaurant_name;
-            })
+
             ->addColumn('action',function($menu){
                 $add_menu_items_url = '/menus-add-remove-menu-items';
                 $edit_url = "/menus/".$menu->id.'/edit';

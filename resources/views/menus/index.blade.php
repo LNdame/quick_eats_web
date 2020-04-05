@@ -72,7 +72,7 @@
           columns: [
             {data: 'menu_name', name: 'menu_name'},
             {data: 'description', name: 'description'},
-            {data: 'restaurant', name: 'restaurant'},
+            {data: 'restaurant.restaurant_name', name: 'restaurant.restaurant_name'},
             {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
           ]

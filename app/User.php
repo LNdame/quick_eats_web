@@ -26,8 +26,12 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public $incrementing = false;
 
     protected $fillable = [
-        'title','name','surname','email','contact_number','profile_picture_url','date_of_birth','address','race','gender','api_token','email_verified_at','password'
+        'title','name','surname','email','contact_number','profile_picture_url','date_of_birth','address','race','gender','api_token','email_verified_at','password','vendor_id'
     ];
+
+    public function vendor(){
+        return $this->hasOne(Vendor::class,'user_id','id');
+    }
 
     /**
      * The attributes that should be hidden for arrays.
