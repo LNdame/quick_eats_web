@@ -24,6 +24,9 @@ Route::get('get-menu-items/{menu}','MenuController@getMenuItems');
 Route::post('store-restaurant','RestaurantController@storeAPI');
 Route::post('update-restaurant/{restaurant)','RestaurantController@updateApi');
 
+Route::post('store-menu-item/{menuItem}','MenuItemController@storeAPI');
+Route::post('update-menu-item/{menuItem}','MenuItemController@updateAPI');
+
 Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::post('profile-update/{user}','ProfileController@updateUserMobile');

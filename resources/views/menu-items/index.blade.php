@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'menu-management', 'titlePage' => __('Menus Management')])
+@extends('layouts.app', ['activePage' => 'menu-items-management', 'titlePage' => __('Menu Items Management')])
 
 @section('content')
   <div class="content">
@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title ">{{ __('Current Menus') }}</h4>
+                <h4 class="card-title ">{{ __('Current Menu Items') }}</h4>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -24,23 +24,35 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('menus.create') }}" class="btn btn-sm btn-success">{{ __('Add Menu') }}</a>
+                    <a href="{{ route('menu-items.create') }}" class="btn btn-sm btn-success">{{ __('Add Menu Item') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table style="width:100%;" id="menus-table" class="table">
+                  <table style="width:100%;" id="menu-items-table" class="table">
                     <thead class=" text-primary">
                     <th>
-                      {{ __('Menu Title') }}
+                      {{ __('Item Name') }}
                     </th>
                     <th>
                       {{ __('Description') }}
                     </th>
                     <th>
-                      {{ __('Restaurant') }}
+                      {{ __('Price') }}
+                    </th>
+                    {{--<th>--}}
+                      {{--{{ __('Notes') }}--}}
+                    {{--</th>--}}
+                    <th>
+                      {{ __('Is Vegan') }}
                     </th>
                     <th>
-                      {{ __('Created At') }}
+                      {{ __('Is Halaal') }}
+                    </th>
+                    <th>
+                      {{ __('Picture Url') }}
+                    </th>
+                    <th>
+                      {{ __('Updated At') }}
                     </th>
 
                     <th class="text-right">
@@ -62,18 +74,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script>
       $(document).ready(function(){
-        $('#menus-table').DataTable({
+        $('#menu-items-table').DataTable({
           processing: true,
           serverSide: true,
           paging: true,
           responsive: true,
           scrollX: 640,
-          ajax: '{{route('get-restaurant-menus')}}',
+          ajax: '{{route('get-menu-items')}}',
           columns: [
-            {data: 'menu_name', name: 'menu_name'},
-            {data: 'description', name: 'description'},
-            {data: 'restaurant.restaurant_name', name: 'restaurant.restaurant_name'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'item_name', name: 'item_name'},
+            {data: 'item_description', name: 'item_description'},
+            {data: 'item_price', name: 'item_price'},
+            // {data: 'notes', name: 'notes'},
+            {data: 'vegan', name: 'vegan'},
+            {data: 'halaal', name: 'halaal'},
+            {data: 'item_picture_url', name: 'item_picture_url'},
+            {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
           ]
         });
@@ -85,7 +101,7 @@
 
       function confirm_delete(obj) {
         Swal.fire({
-          title: 'Are you sure want to delete this Menu!',
+          title: 'Are you sure want to delete this Menu Item!',
           text: "You won't be able to revert this!",
           icon: 'warning',
           showCancelButton: true,

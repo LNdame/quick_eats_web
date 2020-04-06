@@ -68,7 +68,7 @@
                   <span class="sidebar-normal"> {{ __('Menus') }} </span>
                 </a>
               </li>
-              <li class="nav-item{{ $activePage == 'menu-items' ? ' active' : '' }}">
+              <li class="nav-item{{ $activePage == 'menu-items-management' ? ' active' : '' }}">
                 <a class="nav-link" href="{{ route('menu-items.index') }}">
                   <i class="material-icons">assessment</i>
                   <p>{{ __('Menu Items') }}</p>

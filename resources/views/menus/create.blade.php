@@ -65,13 +65,39 @@
                       <i class="material-icons">assignment_ind</i>
                   </span>
                         </div>
-                        <textarea name="description" class="form-control" rows="3">{{old('description')}}</textarea>
+                        <textarea name="description" placeholder="Menu Description" class="form-control" rows="3">{{old('description')}}</textarea>
 
                       </div>
                       @if ($errors->has('description'))
                         <div id="description-error" class="error text-danger pl-3" for="description"
                              style="display: block;">
                           <strong>{{ $errors->first('description') }}</strong>
+                        </div>
+                      @endif
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="bmd-form-group{{ $errors->has('restaurant_id') ? ' has-danger' : '' }} mt-3">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">business</i>
+                                      </span>
+                        </div>
+                        <select class="form-control js-example-basic-single" id="restaurant_id" name="restaurant_id"
+                                required>
+                          <option value="99999">Select Restaurant</option>
+                          @foreach($restaurants as $restaurant)
+                            <option value="{{$restaurant->id}}">{{$restaurant->restaurant_name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      @if ($errors->has('restaurant_id'))
+                        <div id="restaurant_id-error" class="error text-danger pl-3" for="restaurant_id"
+                             style="display: block;">
+                          <strong>{{ $errors->first('restaurant_id') }}</strong>
                         </div>
                       @endif
                     </div>

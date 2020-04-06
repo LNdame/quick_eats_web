@@ -47,7 +47,15 @@ class MenuController extends Controller
     public function create()
     {
         //
-        return view('menus.create');
+        $user = Auth::user();
+        if(isset($user->vendor))
+            $vendor = $user->vendor;
+        else{
+            $vendor = Vendor::where('user_id',$user->id)->first();
+        }
+        $restaurants = $vendor->restaurants;
+
+        return view('menus.create',compact('restaurants'));
     }
 
     /**
@@ -90,7 +98,14 @@ class MenuController extends Controller
     public function edit(Menu $menu)
     {
         //
-        return view('menus.edit',compact('menu'));
+        $user = Auth::user();
+        if(isset($user->vendor))
+            $vendor = $user->vendor;
+        else{
+            $vendor = Vendor::where('user_id',$user->id)->first();
+        }
+        $restaurants = $vendor->restaurants;
+        return view('menus.edit',compact('menu','restaurants'));
     }
 
     /**

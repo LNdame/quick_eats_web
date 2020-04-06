@@ -5,19 +5,19 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ url('menus/'.$menu->id) }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ url('menu-items-update/'.$menuItem->id) }}" autocomplete="off" class="form-horizontal">
             @csrf
-            @method('put')
+            @method('post')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Edit Menu') }}</h4>
+                <h4 class="card-title">{{ __('Add Menu Item') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                    <a href="{{ route('menus.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                    <a href="{{ route('menu-items.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                   </div>
                 </div>
                 @if (session('status'))
@@ -38,40 +38,40 @@
                 <hr/>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('menu_name') ? ' has-danger' : '' }}">
+                    <div class="bmd-form-group{{ $errors->has('item_name') ? ' has-danger' : '' }}">
                       <div class="input-group">
                         <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                          <i class="material-icons">business</i>
+                                          <i class="material-icons">folder_special</i>
                                       </span>
                         </div>
-                        <input type="text" name="menu_name" class="form-control"
-                               placeholder="{{ __('Menu Title...') }}" value="{{ $menu->menu_name }}" required>
+                        <input type="text" name="item_name" class="form-control"
+                               placeholder="{{ __('Item Name...') }}" value="{{ $menuItem->item_name }}" required>
                       </div>
-                      @if ($errors->has('menu_name'))
-                        <div id="menu_name-error" class="error text-danger pl-3" for="menu_name"
+                      @if ($errors->has('item_name'))
+                        <div id="item_name-error" class="error text-danger pl-3" for="item_name"
                              style="display: block;">
-                          <strong>{{ $errors->first('menu_name') }}</strong>
+                          <strong>{{ $errors->first('item_name') }}</strong>
                         </div>
                       @endif
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('description') ? ' has-danger' : '' }}"
+                    <div class="bmd-form-group{{ $errors->has('item_description') ? ' has-danger' : '' }}"
                     >
                       <div class="input-group">
                         <div class="input-group-prepend">
                   <span class="input-group-text">
-                      <i class="material-icons">assessment</i>
+                      <i class="material-icons">assignment</i>
                   </span>
                         </div>
-                        <textarea name="description" class="form-control" rows="3">{{$menu->description}}</textarea>
+                        <textarea name="item_description" placeholder="Item Description" class="form-control" rows="2">{{$menuItem->item_description}}</textarea>
 
                       </div>
-                      @if ($errors->has('description'))
-                        <div id="description-error" class="error text-danger pl-3" for="description"
+                      @if ($errors->has('item_description'))
+                        <div id="item_description-error" class="error text-danger pl-3" for="item_description"
                              style="display: block;">
-                          <strong>{{ $errors->first('description') }}</strong>
+                          <strong>{{ $errors->first('item_description') }}</strong>
                         </div>
                       @endif
                     </div>
@@ -79,24 +79,109 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('restaurant_id') ? ' has-danger' : '' }} mt-3">
+                    <div class="bmd-form-group{{ $errors->has('item_price') ? ' has-danger' : '' }} mt-3">
                       <div class="input-group">
                         <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                        <i class="material-icons">business</i>
+                                        <i class="material-icons">attach_money</i>
                                       </span>
                         </div>
-                        <select class="form-control js-example-basic-single" id="restaurant_id" name="restaurant_id"
+                        <input type="number" step="0.01" name="item_price" class="form-control"
+                               placeholder="{{ __('Item Price...') }}" value="{{ $menuItem->item_price }}" required>
+                      </div>
+                      @if ($errors->has('item_price'))
+                        <div id="item_price-error" class="error text-danger pl-3" for="item_price"
+                             style="display: block;">
+                          <strong>{{ $errors->first('item_price') }}</strong>
+                        </div>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="bmd-form-group{{ $errors->has('notes') ? ' has-danger' : '' }}"
+                    >
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                  <span class="input-group-text">
+                      <i class="material-icons">assignment</i>
+                  </span>
+                        </div>
+                        <textarea id="notes" name="notes" placeholder="Item Notes" class="form-control" rows="2">{{$menuItem->notes}}</textarea>
+
+                      </div>
+                      @if ($errors->has('notes'))
+                        <div id="notes-error" class="error text-danger pl-3" for="notes"
+                             style="display: block;">
+                          <strong>{{ $errors->first('notes') }}</strong>
+                        </div>
+                      @endif
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top: 2em;">
+                  <div class="col-md-6">
+                    <label style="margin-left: 2em;">Is Vegan</label><br/>
+                    <div style="margin-left: 2em;" class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="is_vegan" {{$menuItem->is_vegan==1?'checked':''}} id="inlineRadio1" value="0"> No
+                        <span class="circle">
+        <span class="check"></span>
+    </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" {{$menuItem->is_vegan==1?'checked':''}} name="is_vegan" id="inlineRadio2" value="1"> Yes
+                        <span class="circle">
+        <span class="check"></span>
+    </span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label style="margin-left: 2em;">Is Halaal</label><br/>
+                    <div style="margin-left: 2em;" class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="radio" {{$menuItem->is_halaal==0?'checked':''}} name="is_halaal" id="inlineRadio11" value="0"> No
+                        <span class="circle">
+        <span class="check"></span>
+    </span>
+                      </label>
+                    </div>
+                    <div class="form-check form-check-radio form-check-inline">
+                      <label class="form-check-label">
+                        <input class="form-check-input" {{$menuItem->is_halaal==1?'checked':''}} type="radio" name="is_halaal" id="inlineRadio12" value="1"> Yes
+                        <span class="circle">
+        <span class="check"></span>
+    </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="bmd-form-group{{ $errors->has('menu_id') ? ' has-danger' : '' }} mt-3">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">format_align_left</i>
+                                      </span>
+                        </div>
+                        <select class="form-control js-example-basic-single" id="menu_id" name="menu_id"
                                 required>
-                          @foreach($restaurants as $restaurant)
-                            <option value="{{$restaurant->id}}" {{$restaurant->id==$menu->restaurant_id?'selected':''}}>{{$restaurant->restaurant_name}}</option>
+                          <option value="99999">Select Menu</option>
+                          @foreach($menus as $menu)
+
+                            <option value="{{$menu->id}}" {{$menuItem->menu_id==$menu->id?'selected':''}}>{{$menu->menu_name}}</option>
                           @endforeach
                         </select>
                       </div>
-                      @if ($errors->has('restaurant_id'))
-                        <div id="restaurant_id-error" class="error text-danger pl-3" for="restaurant_id"
+                      @if ($errors->has('menu_id'))
+                        <div id="menu_id-error" class="error text-danger pl-3" for="menu_id"
                              style="display: block;">
-                          <strong>{{ $errors->first('restaurant_id') }}</strong>
+                          <strong>{{ $errors->first('menu_id') }}</strong>
                         </div>
                       @endif
                     </div>
@@ -105,7 +190,7 @@
 
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-success">{{ __('Update Menu') }}</button>
+                <button type="submit" class="btn btn-success">{{ __('Save Menu Item') }}</button>
               </div>
             </div>
           </form>
