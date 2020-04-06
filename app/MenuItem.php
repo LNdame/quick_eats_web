@@ -12,4 +12,8 @@ class MenuItem extends BaseModel
     public function menu(){
         return $this->belongsTo(Menu::class,'menu_id','id');
     }
+
+    public function orders(){
+        return $this->belongsToMany(Order::class);
+    }
 }

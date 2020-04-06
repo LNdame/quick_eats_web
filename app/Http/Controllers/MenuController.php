@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,11 @@ class MenuController extends Controller
 
     public function getMenuItems(Menu $menu){
         return response()->json(['menu_with_items'=>$menu->load('menu_items')],200);
+    }
+
+    public function getMenuItemsAll(Restaurant $restaurant){
+        $menus = Menu::where('restaurant_id',$restaurant->id)->with('menu_items')->get();
+        return response()->json(['menus'=>$menus],200);
     }
 
     /**
