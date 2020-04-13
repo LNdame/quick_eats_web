@@ -16,4 +16,5 @@ class Restaurant extends BaseModel
     public function vendor(){
         return $this->belongsTo(Vendor::class,'vendor_id','id');
     }
+
 }

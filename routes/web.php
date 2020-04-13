@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('account-verification/{user}','UserController@userVerify');
 
 Route::group(['middleware' => 'auth'], function () {
-
+    Route::get('menus-add-remove-menu-items','MenuItemController@create');
     Route::get('get-menu-items','MenuItemController@getMenuItems')->name('get-menu-items');
     Route::get('/menu-delete/{menuItem}','MenuItemController@destroy');
     Route::post('vendor-restaurants/{restaurant}','RestaurantController@updateVendorRestaurant');

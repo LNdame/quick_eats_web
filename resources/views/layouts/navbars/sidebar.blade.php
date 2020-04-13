@@ -54,7 +54,7 @@
             <span class="sidebar-normal"> {{ __('Promotions') }} </span>
           </a>
         </li>
-        <li class="nav-item {{ ($activePage == 'menu-management' || $activePage == 'menu-items') ? ' active' : '' }}">
+        <li class="nav-item {{ ($activePage == 'menu-management' || $activePage == 'menu-items-management') ? ' active' : '' }}">
           <a class="nav-link" data-toggle="collapse" href="#menu-manager" aria-expanded="false">
             <i class="material-icons">speaker_notes</i> <p>{{ __('Menu Management') }}
               <b class="caret"></b>

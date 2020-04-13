@@ -262,14 +262,13 @@ class RestaurantController extends Controller
         //
         DB::beginTransaction();
         try{
-            $vendor = $restaurant->vendor;
+
             $restaurant->delete();
-            $restaurants = $vendor->restaurants;
             DB::commit();
-            return response()->json(['message'=>'Restaurant deleted successfully','status'=>'success','vendor'=>$vendor,'restaurants'=>$restaurants],200);
+            return response()->json(['message'=>'Restaurant deleted successfully','status'=>'success'],200);
         }catch (\Exception $e){
             DB::rollBack();
-            return response()->json(['message'=>'An error occurred while saving the restaurant','status'=>'failure'],500);
+            return response()->json(['message'=>'An error occurred while deleting the restaurant the restaurant.'.$e->getMessage(),'status'=>'failure'],500);
         }
     }
 

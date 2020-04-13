@@ -23,10 +23,18 @@ class MenuController extends Controller
     }
 
     public function getRestaurantMenus(){
-        $vendor = Auth::user();
-        $menus = Menu::with('restaurant')->get();
-        return DataTables::of($menus)
+        $user = Auth::user();
+        $vendor = $user->vendor;
+        $restaurants = $vendor->restaurants;
+        $menus = array();
+        foreach ($restaurants as $restaurant){
+            $menus_cur = $restaurant->menus;
+            foreach ($menus_cur as $menu){
+                array_push($menus,$menu->load('restaurant'));
+            }
+        }
 
+        return DataTables::of($menus)
             ->addColumn('action',function($menu){
                 $add_menu_items_url = '/menus-add-remove-menu-items';
                 $edit_url = "/menus/".$menu->id.'/edit';
@@ -93,6 +101,15 @@ class MenuController extends Controller
     public function show(Menu $menu)
     {
         //
+        $menu->load('menu_items');
+        $user = Auth::user();
+        if(isset($user->vendor))
+            $vendor = $user->vendor;
+        else{
+            $vendor = Vendor::where('user_id',$user->id)->first();
+        }
+        $restaurants = $vendor->restaurants;
+        return view('menus.view',compact('menu','restaurants'));
     }
 
     /**

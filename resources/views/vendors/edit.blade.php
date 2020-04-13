@@ -391,12 +391,12 @@
               console.log("success", response);
               let restaurants = response.restaurants;
               $.notify(response.message, "success");
-
               $('#restaurants-table-body').empty();
+              console.log('restaurants',restaurants);
               for(var i=0;i<restaurants.length;i++){
                 let restaurant = restaurants[i];
                 $('#restaurants-table-body').append('<tr><td>'+restaurant.restaurant_name+'</td><td>'+restaurant.description+'</td><td>'+restaurant.business_hours+'</td><td>'+restaurant.contact_number+'</td><td class="td-actions text-right">\n' +
-                        '                              <button id="{{$restaurant->id}}" type="button" title="Delete Restaurant" onclick="confirm_delete(this)" class="btn btn-danger">\n' +
+                        '                              <button id="'+restaurant.id+'" type="button" title="Delete Restaurant" onclick="confirm_delete(this)" class="btn btn-danger">\n' +
                         '                                <i class="material-icons">close</i>\n' +
                         '                              </button>\n' +
                         '                            </td></tr>');
@@ -439,7 +439,7 @@
                 for(var i=0;i<restaurants.length;i++){
                   let restaurant = restaurants[i];
                   $('#restaurants-table-body').append('<tr><td>'+restaurant.restaurant_name+'</td><td>'+restaurant.description+'</td><td>'+restaurant.business_hours+'</td><td>'+restaurant.contact_number+'</td><td class="td-actions text-right">\n' +
-                          '                              <button id="{{$restaurant->id}}" type="button" title="Delete Restaurant" onclick="confirm_delete(this)" class="btn btn-danger">\n' +
+                          '                              <button id="'+restaurant.id+'" type="button" title="Delete Restaurant" onclick="confirm_delete(this)" class="btn btn-danger">\n' +
                           '                                <i class="material-icons">close</i>\n' +
                           '                              </button>\n' +
                           '                            </td></tr>');

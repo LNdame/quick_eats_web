@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Uuids;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use YoHang88\LetterAvatar\LetterAvatar;
 
 
 class User extends Authenticatable implements MustVerifyEmail, JWTSubject
@@ -31,6 +32,12 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
     public function vendor(){
         return $this->hasOne(Vendor::class,'user_id','id');
+    }
+
+    public function getAvatarAttribute()
+    {
+        return new LetterAvatar($this->name . ' ' .$this->surname);
+
     }
 
     /**
