@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ url('menu-items-update/'.$menuItem->id) }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ url('menu-items-update/'.$menuItem->id) }}" autocomplete="off" class="form-horizontal" enctype="multipart/form-data">
             @csrf
             @method('post')
 
@@ -186,6 +186,21 @@
                       @endif
                     </div>
                   </div>
+
+                    <div class="col-sm-12 col-md-6">
+                        <label>Upload Menu Item Image</label>
+                        <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                            <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                            <div>
+                                                <span class="btn btn-raised btn-round btn-default btn-file">
+                                                    {{--<span class="fileinput-new">Select image</span>--}}
+                                                    {{--<span class="fileinput-exists">Change</span>--}}
+                                                    <input type="file" name="content_file" />
+                                                </span>
+                                {{--<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>--}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
               </div>

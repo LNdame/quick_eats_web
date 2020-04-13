@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\MenuItem;
 use App\Restaurant;
 use App\Vendor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class MenuItemController extends Controller
@@ -107,6 +109,18 @@ class MenuItemController extends Controller
         DB::beginTransaction();
         try{
            $menuItem = MenuItem::create($request->all());
+            if($request->hasFile('content_file')){
+                $file = $request->file('content_file');
+                $ext = $file->getClientOriginalExtension();
+                Storage::makeDirectory(date('Y-m'));
+                $filename = Carbon::now()->timestamp . '.' . $ext;
+                $file_path = Storage::disk('public')->putFileAs('uploads/' . date('Y-m'), $file, $filename);
+                if ($file_path) {
+                    $menuItem->item_picture_url = 'storage/'.$file_path;
+                }
+            }
+            $menuItem->save();
+
            DB::commit();
            return redirect('menu-items')->withStatus('Menu Item Saved Successfully');
         }catch(\Exception $e){
@@ -121,6 +135,7 @@ class MenuItemController extends Controller
         DB::beginTransaction();
         try{
             $menuItem = MenuItem::create($request->all());
+
             DB::commit();
             return response()->json(['message'=>'Menu Item created successfully','menu_item'=>$menuItem],200);
         }catch(\Exception $e){
@@ -149,7 +164,6 @@ class MenuItemController extends Controller
     public function edit(MenuItem $menuItem)
     {
         //
-
         $user = Auth::user();
         $vendor = $user->vendor;
         if(isset($vendor))
@@ -179,6 +193,19 @@ class MenuItemController extends Controller
         DB::beginTransaction();
         try{
             $menuItem->update($request->all());
+            $menuItem = $menuItem->fresh();
+
+            if($request->hasFile('content_file')){
+                $file = $request->file('content_file');
+                $ext = $file->getClientOriginalExtension();
+                Storage::makeDirectory(date('Y-m'));
+                $filename = Carbon::now()->timestamp . '.' . $ext;
+                $file_path = Storage::disk('public')->putFileAs('uploads/' . date('Y-m'), $file, $filename);
+                if ($file_path) {
+                    $menuItem->item_picture_url = 'storage/'.$file_path;
+                }
+            }
+            $menuItem->save();
             DB::commit();
             return redirect('menu-items')->withStatus('Menu Item updated successfully');
         }catch (\Exception $e){

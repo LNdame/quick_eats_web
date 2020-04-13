@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Restaurant;
 use App\Vendor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class RestaurantController extends Controller
@@ -89,7 +91,19 @@ class RestaurantController extends Controller
     public function vendorSaveRestaurant(Request $request){
         DB::beginTransaction();
         try{
+//            dd($request->all());
             $restaurant = Restaurant::create($request->all());
+            if($request->hasFile('content_file')){
+                $file = $request->file('content_file');
+                $ext = $file->getClientOriginalExtension();
+                Storage::makeDirectory(date('Y-m'));
+                $filename = Carbon::now()->timestamp . '.' . $ext;
+                $file_path = Storage::disk('public')->putFileAs('uploads/' . date('Y-m'), $file, $filename);
+                if ($file_path) {
+                    $restaurant->picture_url = 'storage/'.$file_path;
+                }
+            }
+            $restaurant->save();
             DB::commit();
             return redirect('vendor-restaurants')->withStatus('Restaurant saved successfully');
         }catch (\Exception $e){
@@ -105,6 +119,18 @@ class RestaurantController extends Controller
         parse_str($input,$data);
         try{
             $restaurant = Restaurant::create($data);
+            if($request->hasFile('content_file')){
+                $file = $request->file('content_file');
+                $ext = $file->getClientOriginalExtension();
+                Storage::makeDirectory(date('Y-m'));
+                $filename = $restaurant->restaurant_name.Carbon::now() . '.' . $ext;
+                $file_path = Storage::disk('s3')->putFileAs('uploads/' . date('Y-m'), $file, $filename);
+                if ($file_path) {
+                    $restaurant->picture_url = $file_path;
+                }
+            }
+            $restaurant->save();
+
             DB::commit();
             $vendor = $restaurant->vendor;
             $restaurants = $vendor->restaurants;
@@ -146,7 +172,20 @@ class RestaurantController extends Controller
         DB::beginTransaction();
         try{
             $restaurant->update($request->all());
-            DB::commit();
+            $restaurant = $restaurant->fresh();
+            if($request->hasFile('content_file')){
+                $file = $request->file('content_file');
+                $ext = $file->getClientOriginalExtension();
+                Storage::makeDirectory(date('Y-m'));
+                $filename = Carbon::now()->timestamp . '.' . $ext;
+                $file_path = Storage::disk('public')->putFileAs('uploads/' . date('Y-m'), $file, $filename);
+                if ($file_path) {
+                    $restaurant->picture_url = 'storage/'.$file_path;
+                }
+            }
+
+            $restaurant->save();
+            DB:commit();
             return redirect('vendor-restaurants')->withStatus('Restaurant updated successfully');
         }catch (\Exception $e){
             DB::rollBack();

@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ url('vendor-save-restaurant') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ url('vendor-save-restaurant') }}"  enctype="multipart/form-data" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
 
@@ -138,6 +138,20 @@
                    </div>
                  </div>
                  <input name="vendor_id" value="{{$vendor_id}}" hidden>
+                 <div class="col-sm-12 col-md-6">
+                   <label>Upload Restaurant Image</label>
+                   <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                     <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>
+                     <div>
+                                                <span class="btn btn-raised btn-round btn-default btn-file">
+                                                    {{--<span class="fileinput-new">Select image</span>--}}
+                                                  {{--<span class="fileinput-exists">Change</span>--}}
+                                                    <input type="file" name="content_file" />
+                                                </span>
+                       {{--<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>--}}
+                     </div>
+                   </div>
+                 </div>
                </div>
 
               </div>
