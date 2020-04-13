@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('roles','MobileAuthenticator@getRoles');
+Route::post('password-update','UserController@updatePassword');
+Route::post('update-profile/{user}','UserController@updateProfile');
 
 Route::post('save-customer-order','OrderController@store');
 Route::post('get-customer-orders/{user}','OrderController@getCustomerOrders');

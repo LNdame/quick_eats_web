@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Carbon\Carbon;
+use http\Client\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -106,6 +107,37 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$hasPassword ? '' : 'password']
         ));
+
+        return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
+    }
+
+    public function updatePassword(Request $request){
+        DB::beginTransaction();
+        try{
+            $user = User::where('email',$request->input('email'))->get();
+            $user->password = Hash::make($request->input(['password']));
+            $user->save();
+            DB::commit();
+            return response()->json(['message'=>'Password changed successfully', 'user'=>$user->fresh()],200);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(['message'=>'An error occurred while updating password. '.$e->getMessage()],500);
+
+        }
+    }
+
+    public function updateProfile(Request $request, User  $user)
+    {
+        DB::beginTransaction();
+        try{
+            $user->update($request->all());
+            DB::commit();
+            $user= $user->fresh();
+            return response()->json(['message'=>'Profile updated successfully','user'=>$user],200);
+        }catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(['message'=>'An error occurred while updating user profile. '.$e->getMessage()],500);
+        }
 
         return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
     }
