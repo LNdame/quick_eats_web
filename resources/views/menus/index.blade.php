@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'restraurants-management', 'titlePage' => __('Restaurant Management')])
+@extends('layouts.app', ['activePage' => 'menu-management', 'titlePage' => __('Menus Management')])
 
 @section('content')
   <div class="content">
@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title ">{{ __('Registered Restaurants') }}</h4>
+                <h4 class="card-title ">{{ __('Current Menus') }}</h4>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -24,28 +24,20 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('restaurants.create') }}" class="btn btn-sm btn-success">{{ __('Add Restaurant') }}</a>
+                    <a href="{{ route('menus.create') }}" class="btn btn-sm btn-success">{{ __('Add Menu') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table style="width:100%;" id="restaurants-table" class="table">
+                  <table style="width:100%;" id="menus-table" class="table">
                     <thead class=" text-primary">
                     <th>
-                      {{ __('Restaurant Name') }}
+                      {{ __('Menu Title') }}
                     </th>
-                    <th>Vendor</th>
                     <th>
                       {{ __('Description') }}
                     </th>
                     <th>
-                      {{ __('Address') }}
-                    </th>
-
-                    <th>
-                      {{ __('Business hours') }}
-                    </th>
-                    <th>
-                      {{ __('Contact Number') }}
+                      {{ __('Restaurant') }}
                     </th>
                     <th>
                       {{ __('Created At') }}
@@ -70,20 +62,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script>
       $(document).ready(function(){
-        $('#restaurants-table').DataTable({
+        $('#menus-table').DataTable({
           processing: true,
           serverSide: true,
           paging: true,
           responsive: true,
           scrollX: 640,
-          ajax: '{{route('get-restaurants')}}',
+          ajax: '{{route('get-restaurant-menus')}}',
           columns: [
-            {data: 'restaurant_name', name: 'restaurant_name'},
-            {data: 'vendor', name: 'vendor'},
+            {data: 'menu_name', name: 'menu_name'},
             {data: 'description', name: 'description'},
-            {data: 'address', name: 'address'},
-            {data: 'business_hours', name: 'business_hours'},
-            {data: 'contact_number', name: 'contact_number'},
+            {data: 'restaurant.restaurant_name', name: 'restaurant.restaurant_name'},
             {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
           ]
@@ -96,7 +85,7 @@
 
       function confirm_delete(obj) {
         Swal.fire({
-          title: 'Are you sure want to delete this Restaurant!',
+          title: 'Are you sure want to delete this Menu!',
           text: "You won't be able to revert this!",
           icon: 'warning',
           showCancelButton: true,

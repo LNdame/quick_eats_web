@@ -43,24 +43,21 @@
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password">{{ __(' Password') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Account Status') }}</label>
                   <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" input type="password" name="password" id="input-password" placeholder="{{ __('Password') }}" />
-                      @if ($errors->has('password'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('password') }}</span>
-                      @endif
+                    <div class="form-group{{ $errors->has('account_status') ? ' has-danger' : '' }}">
+                      <select class="form-control js-example-basic-single" id="account_status"
+                              name="account_status"
+                      >
+                        <option value="active" {{$user->account_status!='in-active'?'selected':''}}>Active</option>
+                        <option value="in-active" {{$user->account_status=='in-active'?'selected':''}}>In Active</option>
+                      </select>
+                        <span id="email-error" class="error text-danger" for="input-email">{{ $errors->first('account_status') }}</span>
+
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password-confirmation">{{ __('Confirm Password') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                      <input class="form-control" name="password_confirmation" id="input-password-confirmation" type="password" placeholder="{{ __('Confirm Password') }}" />
-                    </div>
-                  </div>
-                </div>
+
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
@@ -71,4 +68,11 @@
       </div>
     </div>
   </div>
+  @push('custom-scripts')
+    <script>
+      $(document).ready(function(){
+        $('select').select2();
+      });
+    </script>
+  @endpush
 @endsection

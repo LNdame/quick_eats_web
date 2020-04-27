@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'restraurants-management', 'titlePage' => __('Restaurant Management')])
+@extends('layouts.app', ['activePage' => 'menu-items-management', 'titlePage' => __('Menu Items Management')])
 
 @section('content')
   <div class="content">
@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title ">{{ __('Registered Restaurants') }}</h4>
+                <h4 class="card-title ">{{ __('Current Menu Items') }}</h4>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -24,31 +24,35 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('restaurants.create') }}" class="btn btn-sm btn-success">{{ __('Add Restaurant') }}</a>
+                    <a href="{{ route('menu-items.create') }}" class="btn btn-sm btn-success">{{ __('Add Menu Item') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table style="width:100%;" id="restaurants-table" class="table">
+                  <table style="width:100%;" id="menu-items-table" class="table">
                     <thead class=" text-primary">
                     <th>
-                      {{ __('Restaurant Name') }}
+                      {{ __('Item Name') }}
                     </th>
-                    <th>Vendor</th>
                     <th>
                       {{ __('Description') }}
                     </th>
                     <th>
-                      {{ __('Address') }}
+                      {{ __('Price') }}
                     </th>
-
+                    {{--<th>--}}
+                      {{--{{ __('Notes') }}--}}
+                    {{--</th>--}}
                     <th>
-                      {{ __('Business hours') }}
+                      {{ __('Is Vegan') }}
                     </th>
                     <th>
-                      {{ __('Contact Number') }}
+                      {{ __('Is Halaal') }}
                     </th>
                     <th>
-                      {{ __('Created At') }}
+                      {{ __('Picture Url') }}
+                    </th>
+                    <th>
+                      {{ __('Updated At') }}
                     </th>
 
                     <th class="text-right">
@@ -70,21 +74,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script>
       $(document).ready(function(){
-        $('#restaurants-table').DataTable({
+        $('#menu-items-table').DataTable({
           processing: true,
           serverSide: true,
           paging: true,
           responsive: true,
           scrollX: 640,
-          ajax: '{{route('get-restaurants')}}',
+          ajax: '{{route('get-menu-items')}}',
           columns: [
-            {data: 'restaurant_name', name: 'restaurant_name'},
-            {data: 'vendor', name: 'vendor'},
-            {data: 'description', name: 'description'},
-            {data: 'address', name: 'address'},
-            {data: 'business_hours', name: 'business_hours'},
-            {data: 'contact_number', name: 'contact_number'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'item_name', name: 'item_name'},
+            {data: 'item_description', name: 'item_description'},
+            {data: 'item_price', name: 'item_price'},
+            // {data: 'notes', name: 'notes'},
+            {data: 'vegan', name: 'vegan'},
+            {data: 'halaal', name: 'halaal'},
+            {data: 'item_picture_url', name: 'item_picture_url'},
+            {data: 'updated_at', name: 'updated_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
           ]
         });
@@ -96,7 +101,7 @@
 
       function confirm_delete(obj) {
         Swal.fire({
-          title: 'Are you sure want to delete this Restaurant!',
+          title: 'Are you sure want to delete this Menu Item!',
           text: "You won't be able to revert this!",
           icon: 'warning',
           showCancelButton: true,

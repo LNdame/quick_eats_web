@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title ">{{ __('Registered Restaurants') }}</h4>
+                <h4 class="card-title ">{{ __('My Restaurants') }}</h4>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -24,7 +24,7 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('restaurants.create') }}" class="btn btn-sm btn-success">{{ __('Add Restaurant') }}</a>
+                    <a href="{{ url('vendor-restaurants-create') }}" class="btn btn-sm btn-success">{{ __('Add Restaurant') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
@@ -33,7 +33,6 @@
                     <th>
                       {{ __('Restaurant Name') }}
                     </th>
-                    <th>Vendor</th>
                     <th>
                       {{ __('Description') }}
                     </th>
@@ -76,10 +75,9 @@
           paging: true,
           responsive: true,
           scrollX: 640,
-          ajax: '{{route('get-restaurants')}}',
+          ajax: '{{route('get-vendor-restaurants')}}',
           columns: [
             {data: 'restaurant_name', name: 'restaurant_name'},
-            {data: 'vendor', name: 'vendor'},
             {data: 'description', name: 'description'},
             {data: 'address', name: 'address'},
             {data: 'business_hours', name: 'business_hours'},

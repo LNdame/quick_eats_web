@@ -1,23 +1,23 @@
-@extends('layouts.app', ['activePage' => 'vendor-management', 'titlePage' => __('Vendors Management')])
+@extends('layouts.app', ['activePage' => 'restaurant-management', 'titlePage' => __('Restaurants Management')])
 
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('vendors.store') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ url('restaurants/'.$restaurant->id) }}" autocomplete="off" class="form-horizontal">
             @csrf
-            @method('post')
+            @method('put')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Add Vendor') }}</h4>
+                <h4 class="card-title">{{ __('Edit Restaurant') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                      <a href="{{ route('vendors.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                      <a href="{{ url('restaurants') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                   </div>
                 </div>
                 @if (session('status'))
@@ -33,31 +33,31 @@
                   </div>
                 @endif
                 <div class="bmd-form-group text-center">
-                  <h4>Vendor Details</h4>
+                  <h4>Restaurant Details</h4>
                 </div>
                 <hr/>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('trading_name') ? ' has-danger' : '' }}">
+                    <div class="bmd-form-group{{ $errors->has('restaurant_name') ? ' has-danger' : '' }}">
                       <div class="input-group">
                         <div class="input-group-prepend">
                                       <span class="input-group-text">
                                           <i class="material-icons">business</i>
                                       </span>
                         </div>
-                        <input type="text" name="trading_name" class="form-control"
-                               placeholder="{{ __('Vendor Trading Name...') }}" value="{{ old('trading_name') }}" required>
+                        <input type="text" name="restaurant_name" class="form-control"
+                               placeholder="{{ __('Restaurant Name...') }}" value="{{ $restaurant->restaurant_name }}" required>
                       </div>
-                      @if ($errors->has('trading_name'))
-                        <div id="trading_name-error" class="error text-danger pl-3" for="trading_name"
+                      @if ($errors->has('restaurant_name'))
+                        <div id="restaurant_name-error" class="error text-danger pl-3" for="restaurant_name"
                              style="display: block;">
-                          <strong>{{ $errors->first('trading_name') }}</strong>
+                          <strong>{{ $errors->first('restaurant_name') }}</strong>
                         </div>
                       @endif
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('contact_person_name') ? ' has-danger' : '' }}"
+                    <div class="bmd-form-group{{ $errors->has('description') ? ' has-danger' : '' }}"
                     >
                       <div class="input-group">
                         <div class="input-group-prepend">
@@ -65,13 +65,13 @@
                       <i class="material-icons">assignment_ind</i>
                   </span>
                         </div>
-                        <input type="text" name="contact_person_name" class="form-control"
-                               placeholder="{{ __('Contact Person Name...') }}" value="{{ old('contact_person_name') }}" required>
+                        <input type="text" name="description" class="form-control"
+                               placeholder="{{ __('Description...') }}" value="{{ $restaurant->description }}" required>
                       </div>
-                      @if ($errors->has('contact_person_name'))
-                        <div id="contact_person_name-error" class="error text-danger pl-3" for="contact_person_name"
+                      @if ($errors->has('description'))
+                        <div id="description-error" class="error text-danger pl-3" for="description"
                              style="display: block;">
-                          <strong>{{ $errors->first('contact_person_name') }}</strong>
+                          <strong>{{ $errors->first('description') }}</strong>
                         </div>
                       @endif
                     </div>
@@ -79,40 +79,39 @@
                 </div>
                 <div class="row" style="margin-top: 1em;">
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('contact_person_surname') ? ' has-danger' : '' }}"
+                    <div class="bmd-form-group{{ $errors->has('address') ? ' has-danger' : '' }}"
                     >
                       <div class="input-group">
                         <div class="input-group-prepend">
                   <span class="input-group-text">
-                      <i class="material-icons">assignment_ind</i>
+                      <i class="material-icons">streetview</i>
                   </span>
                         </div>
-                        <input type="text" name="contact_person_surname" class="form-control"
-                               placeholder="{{ __('Contact Person Surname...') }}" value="{{ old('contact_person_surname') }}" required>
+                        <textarea placeholder="Enter Address" name="address" rows="2" class="form-control">{{$restaurant->address}}</textarea>
                       </div>
-                      @if ($errors->has('contact_person_surname'))
-                        <div id="contact_person_surname-error" class="error text-danger pl-3" for="contact_person_surname"
+                      @if ($errors->has('address'))
+                        <div id="address-error" class="error text-danger pl-3" for="address"
                              style="display: block;">
-                          <strong>{{ $errors->first('contact_person_surname') }}</strong>
+                          <strong>{{ $errors->first('address') }}</strong>
                         </div>
                       @endif
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                    <div class="bmd-form-group{{ $errors->has('business_hours') ? ' has-danger' : '' }}">
                       <div class="input-group">
                         <div class="input-group-prepend">
                                                   <span class="input-group-text">
-                                                    <i class="material-icons">email</i>
+                                                    <i class="material-icons">alarm</i>
                                                   </span>
                         </div>
-                        <input type="email" name="email" class="form-control"
-                               placeholder="{{ __('Email...') }}" value="{{ old('email') }}" required>
+                        <input type="text" name="business_hours" class="form-control"
+                               placeholder="{{ __('Business Hours...') }}" value="{{$restaurant->business_hours }}" required>
                       </div>
-                      @if ($errors->has('email'))
-                        <div id="email-error" class="error text-danger pl-3" for="email"
+                      @if ($errors->has('business_hours'))
+                        <div id="business_hours-error" class="error text-danger pl-3" for="business_hours"
                              style="display: block;">
-                          <strong>{{ $errors->first('email') }}</strong>
+                          <strong>{{ $errors->first('business_hours') }}</strong>
                         </div>
                       @endif
                     </div>
@@ -124,11 +123,11 @@
                      <div class="input-group">
                        <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="material-icons">insert_invitation</i>
+                    <i class="material-icons">local_phone</i>
                   </span>
                        </div>
-                       <input  type="text" name="contact_number" class="form-control"
-                               placeholder="{{ __('Contact Number...') }}" value="{{ old('contact_number') }}">
+                       <input  type="tel" name="contact_number" class="form-control"
+                               placeholder="{{ __('Contact Number...') }}" value="{{ $restaurant->contact_number }}">
                      </div>
                      @if ($errors->has('contact_number'))
                        <div id="contact_number-error" class="error text-danger pl-3" for="contact_number"
@@ -139,25 +138,25 @@
                    </div>
                  </div>
                  <div class="col-md-6">
-                   <div class="bmd-form-group{{ $errors->has('category_id') ? ' has-danger' : '' }} mt-3">
+                   <div class="bmd-form-group{{ $errors->has('trading_name') ? ' has-danger' : '' }} mt-3">
                      <div class="input-group">
                        <div class="input-group-prepend">
                                       <span class="input-group-text">
-                                        <i class="material-icons">streetview</i>
+                                        <i class="material-icons">business</i>
                                       </span>
                        </div>
-                       <select class="form-control js-example-basic-single" id="category_id" name="category_id"
+                       <select class="form-control js-example-basic-single" id="trading_name" name="vendor_id"
                                required>
-                         <option value="99999">Category</option>
-                          @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                         <option value="99999">Select Vendor</option>
+                          @foreach($vendors as $vendor)
+                            <option value="{{$vendor->id}}" {{$vendor->id == $restaurant->vendor_id?'selected':''}}>{{$vendor->trading_name}}</option>
                             @endforeach
                        </select>
                      </div>
-                     @if ($errors->has('category_id'))
-                       <div id="gender-error" class="error text-danger pl-3" for="category_id"
+                     @if ($errors->has('trading_name'))
+                       <div id="trading_name-error" class="error text-danger pl-3" for="trading_name"
                             style="display: block;">
-                         <strong>{{ $errors->first('category_id') }}</strong>
+                         <strong>{{ $errors->first('trading_name') }}</strong>
                        </div>
                      @endif
                    </div>
@@ -166,7 +165,7 @@
 
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-success">{{ __('Save Vendor') }}</button>
+                <button type="submit" class="btn btn-success">{{ __('Update Restaurant') }}</button>
               </div>
             </div>
           </form>

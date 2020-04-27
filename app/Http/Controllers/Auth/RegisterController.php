@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Role;
 use App\User;
+use App\Vendor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -38,8 +40,8 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $roles = Role::where('name','!=','admin')->get();
-
-        return view('auth.register',compact('roles'));
+        $categories = Category::all();
+        return view('auth.register',compact('roles','categories'));
     }
 
     /**
@@ -98,6 +100,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
 //            'api_token' => $token,
         ]);
+        $vendor=Role::where('name','vendor')->first();
+        if($data['role']==$vendor->id){
+            $vendor = Vendor::create(['trading_name'=>$data['trading_name'],'email'=>$data['email'],'category_id'=>$data['category_id'],'contact_person_name'=>$data['name'],'contact_person_surname'=>$data['name'],'contact_number' => $data['contact_number'],'user_id'=>$user->id]);
+        }
 
        $user->roles()->attach($data['role']);
         return $user;
