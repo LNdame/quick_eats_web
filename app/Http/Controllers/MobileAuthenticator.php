@@ -24,6 +24,7 @@ class MobileAuthenticator extends Controller
         if (! $token = auth()->guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Login failed, user unauthorized'], 401);
         }
+
         $user = User::where('email',request(['email']))->first();
         $message = 'Login successful';
         return $this->respondWithToken($token,$user,$message);
@@ -33,18 +34,26 @@ class MobileAuthenticator extends Controller
 
         DB::beginTransaction();
         try{
-            $user = User::create($request->all());
-            $token = auth()->guard('api')->login($user);
-            $message = 'Registration successful, an email has been sent for verification purposes';
-            $role = Role::where('name',strtolower($request->input('role')))->first();
+            $input = $request->all();
+            $existing_user = User::where('email',$input['email'])->first();
 
-            $user->roles()->attach($role->id);
-            $url = env('APP_URL').'/account-verification/'.$user->id;
-            Mail::to($user->email)->send(new RegistrationEmailer($user,$url));
-            DB::commit();
-            return $this->respondWithToken($token,$user,$message);
+            if(!is_null($existing_user)){
+                return response()->json(['message'=>'Email already exists','inputs'=>$input,'error'=>true],403);
+            }else{
+                $user = User::create($input);
+                $token = auth()->guard('api')->login($user);
+                $message = 'Registration successful, an email has been sent for verification purposes';
+                $role = Role::where('name',strtolower($request->input('role')))->first();
+
+                $user->roles()->attach($role->id);
+                $url = env('APP_URL').'/account-verification/'.$user->id;
+                Mail::to($user->email)->send(new RegistrationEmailer($user,$url));
+                DB::commit();
+                return $this->respondWithToken($token,$user,$message);
+            }
+
         }catch (\Exception $e){
-            return response()->json(['message'=>'An error occurred during registration, please try again. '.$e->getMessage()],500);
+            return response()->json(['message'=>'An internal server error occurred during registration, please try again. '.$e->getMessage(),'error'=>true],500);
         }
 
     }

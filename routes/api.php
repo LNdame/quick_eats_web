@@ -12,14 +12,14 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('roles','MobileAuthenticator@getRoles');
-Route::post('password-update','UserController@updatePassword');
-Route::post('update-profile/{user}','UserController@updateProfile');
-
-Route::post('save-customer-order','OrderController@store');
-Route::post('get-customer-orders/{user}','OrderController@getCustomerOrders');
 Route::post('login','MobileAuthenticator@login');
 Route::post('register','MobileAuthenticator@register');
+Route::post('password-update','UserController@updatePassword');
+Route::get('roles','MobileAuthenticator@getRoles');
+Route::post('update-profile/{user}','UserController@updateProfile');
+Route::post('save-customer-order','OrderController@store');
+Route::post('get-customer-orders/{user}','OrderController@getCustomerOrders');
+
 Route::get('get-vendors','VendorController@getVendors');
 Route::get('get-vendors-with-restaurants','VendorController@getVendorsWithRestaurants');
 Route::get('get-restaurants','RestaurantController@getRestaurants');

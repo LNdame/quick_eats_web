@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="f4231156-330e-46b5-a5f6-4487bf6b1e75" name="quick-eats" url="http://167.172.49.199">
-        <fileTransfer host="167.172.49.199" port="22" privateKey="C:\Users\tonga\Desktop\MarshTEQ\QuickEats\quick-eats-new.ppk" rootFolder="/var/www/html/quick-eats" accessType="SFTP" keyPair="true">
+        <fileTransfer host="167.172.49.199" port="22" privateKey="C:\Users\Avo\Desktop\MarshTEQ\QuickEats\quick-eats-new.ppk" rootFolder="/var/www/html/quick-eats" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
