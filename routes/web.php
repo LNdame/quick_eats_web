@@ -21,6 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('account-verification/{user}','UserController@userVerify');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::resource('menu-items-category','MenuItemCategoryController');
+    Route::get('getMenuItemCategories','MenuItemCategoryController@getMenuItemCategories')->name('get-menu-item-categories');
+    Route::post('category-item-update/{menuItemCategory}','MenuItemCategoryController@update');
+    Route::get('category-edit/{menuItemCategory}/edit','MenuItemCategoryController@edit');
+    Route::get('menu-items-category-view/{menuItemCategory}','MenuItemCategoryController@show');
+    Route::get('category-delete/{menuItemCategory}','MenuItemCategoryController@destroy');
+
     Route::get('menus-add-remove-menu-items','MenuItemController@create');
     Route::get('get-menu-items','MenuItemController@getMenuItems')->name('get-menu-items');
     Route::get('/menu-delete/{menuItem}','MenuItemController@destroy');

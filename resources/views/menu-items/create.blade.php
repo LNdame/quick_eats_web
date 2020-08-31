@@ -186,7 +186,34 @@
                       @endif
                     </div>
                   </div>
-                    <div class="col-sm-12 col-md-6">
+                    <div class="col-md-6">
+                        <div class="bmd-form-group{{ $errors->has('category_id') ? ' has-danger' : '' }} mt-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="material-icons">format_align_left</i>
+                                      </span>
+                                </div>
+                                <select class="form-control js-example-basic-single" id="category_id" name="category_id"
+                                        required>
+                                    <option value="99999">Select Category</option>
+                                    @foreach($categories as $category)
+
+                                        <option value="{{$category->id}}">{{$category->item_category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($errors->has('category_id'))
+                                <div id="menu_id-error" class="error text-danger pl-3" for="category_id"
+                                     style="display: block;">
+                                    <strong>{{ $errors->first('category_id') }}</strong>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6" style="margin-top:2em;">
                         <label>Upload Menu Item Image</label>
                         <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                             <div class="fileinput-preview fileinput-exists thumbnail img-raised"></div>

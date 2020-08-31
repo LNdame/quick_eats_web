@@ -25,14 +25,16 @@ class MenuController extends Controller
     public function getRestaurantMenus(){
         $user = Auth::user();
         $vendor = $user->vendor;
-        $restaurants = $vendor->restaurants;
+
         $menus = array();
+        $restaurants = $vendor->restaurants;
         foreach ($restaurants as $restaurant){
             $menus_cur = $restaurant->menus;
             foreach ($menus_cur as $menu){
                 array_push($menus,$menu->load('restaurant'));
             }
         }
+
 
         return DataTables::of($menus)
             ->addColumn('action',function($menu){

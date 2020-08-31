@@ -19,6 +19,7 @@ Route::get('roles','MobileAuthenticator@getRoles');
 Route::post('update-profile/{user}','UserController@updateProfile');
 Route::post('save-customer-order','OrderController@store');
 Route::post('get-customer-orders/{user}','OrderController@getCustomerOrders');
+Route::get('get-item-categories','MenuItemCategoryController@getItemCategoriesApi');
 
 Route::get('get-vendors','VendorController@getVendors');
 Route::get('get-vendors-with-restaurants','VendorController@getVendorsWithRestaurants');

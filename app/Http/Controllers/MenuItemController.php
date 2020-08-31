@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\MenuItem;
+use App\MenuItemCategory;
 use App\Restaurant;
 use App\Vendor;
 use Carbon\Carbon;
@@ -67,8 +68,13 @@ class MenuItemController extends Controller
                 }else{
                     return '<span class="badge badge-success">Yes</span>';
                 }
+            })->addColumn('category',function($item){
+                if(isset($item->category))
+                return '<span class="badge badge-info">'.$item->category->item_category_name.'</span>';
+                else
+                    return '';
             })
-            ->rawColumns(['action','vegan','halaal'])
+            ->rawColumns(['action','vegan','halaal','category'])
             ->make(true);
     }
 
@@ -93,8 +99,9 @@ class MenuItemController extends Controller
             foreach ($restaurant->menus as $menu)
              array_push($menus,$menu);
         }
-//        dd($menus);
-        return view('menu-items.create',compact('menus'));
+
+        $categories = MenuItemCategory::all();
+        return view('menu-items.create',compact('menus','categories'));
     }
 
     /**
@@ -180,7 +187,9 @@ class MenuItemController extends Controller
             foreach ($restaurant->menus as $menu)
                 array_push($menus,$menu);
         }
-        return view('menu-items.edit',compact('menuItem','menus'));
+
+        $categories = MenuItemCategory::all();
+        return view('menu-items.edit',compact('menuItem','menus','categories'));
     }
 
     /**
