@@ -22,6 +22,14 @@ Route::get('account-verification/{user}','UserController@userVerify');
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::resource('extras','ExtraController');
+    Route::get('get-extras','ExtraController@getExtras')->name('get-extras');
+    Route::get('extras-edit/{extra}/edit','ExtraController@edit');
+    Route::post('update-extra/{extra}','ExtraController@update');
+    Route::get('extras-delete/{extra}','ExtraController@destroy');
+    Route::get('menus-item-extras/{menuItem}/add-extras','MenuItemController@addExtras');
+    Route::post('extra-items-store','ExtraController@storeExtraToMenu');
+
     Route::resource('menu-items-category','MenuItemCategoryController');
     Route::get('getMenuItemCategories','MenuItemCategoryController@getMenuItemCategories')->name('get-menu-item-categories');
     Route::post('category-item-update/{menuItemCategory}','MenuItemCategoryController@update');

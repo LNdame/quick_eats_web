@@ -12,6 +12,14 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('save-favourite','FavouriteController@store');
+Route::get('get-user-favourites/{user}','FavouriteController@getUserFavourites');
+Route::get('get-menu-category-items/{menuItemCategory}','MenuItemCategoryController@getMenuItems');
+Route::get('get-payfast-details/{restaurant}','RestaurantController@getPayfastDetails');
+Route::post('notify-url','PaymentController@payfastNotification');
+Route::get('thank-you','PaymentController@thankYou');
+Route::get('cancel','PaymentController@cancel');
+
 Route::post('login','MobileAuthenticator@login');
 Route::post('register','MobileAuthenticator@register');
 Route::post('password-update','UserController@updatePassword');

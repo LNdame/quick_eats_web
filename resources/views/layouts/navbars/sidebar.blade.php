@@ -60,7 +60,7 @@
             <span class="sidebar-normal"> {{ __('Promotions') }} </span>
           </a>
         </li>
-        <li class="nav-item {{ ($activePage == 'menu-management' || $activePage=='menu-items-category-management' || $activePage == 'menu-items-management') ? ' active' : '' }}">
+        <li class="nav-item {{ ($activePage == 'menu-management' || $activePage=='menu-items-category-management' || $activePage=='extras-management' ? ' active' : ''  || $activePage == 'menu-items-management') ? ' active' : '' }}">
           <a class="nav-link" data-toggle="collapse" href="#menu-manager" aria-expanded="false">
             <i class="material-icons">speaker_notes</i> <p>{{ __('Menu Management') }}
               <b class="caret"></b>
@@ -68,7 +68,7 @@
           </a>
           <div class="collapse" id="menu-manager">
             <ul class="nav">
-              <li class="nav-item{{ $activePage == 'menu-management' ? ' active' : '' }}">
+              <li class="nav-item{{ $activePage == 'menu-management'}}">
                 <a class="nav-link" href="{{route('menus.index')}}">
                   <i class="material-icons">assignment</i>
                   <span class="sidebar-normal"> {{ __('Menus') }} </span>
@@ -78,6 +78,12 @@
                 <a class="nav-link" href="{{ route('menu-items.index') }}">
                   <i class="material-icons">assessment</i>
                   <p>{{ __('Menu Items') }}</p>
+                </a>
+              </li>
+              <li class="nav-item{{ $activePage == 'extras-management' ? ' active' : '' }}">
+                <a class="nav-link" href="{{ route('extras.index') }}">
+                  <i class="material-icons">assessment</i>
+                  <p>{{ __('Menu Extras') }}</p>
                 </a>
               </li>
               <li class="nav-item{{ $activePage == 'menu-items-category-management' ? ' active' : '' }}">

@@ -34,6 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return $this->hasOne(Vendor::class,'user_id','id');
     }
 
+    public function favourites(){
+        return $this->hasMany(Favourite::class,'user_id','id');
+    }
+
     public function getAvatarAttribute()
     {
         return new LetterAvatar($this->name . ' ' .$this->surname);

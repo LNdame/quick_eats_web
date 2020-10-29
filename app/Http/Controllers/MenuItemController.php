@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Extra;
 use App\MenuItem;
 use App\MenuItemCategory;
 use App\Restaurant;
@@ -52,10 +53,11 @@ class MenuItemController extends Controller
         return DataTables::of($menu_items)
 
             ->addColumn('action',function($menu_item){
+                $menu_item_extras = "/menus-item-extras/".$menu_item->id.'/add-extras';
                 $edit_url = "/menus-items/".$menu_item->id.'/edit';
                 $delete_url = "/menu-delete/".$menu_item->id."#menu-items-table";
                 $view_url = "/menu-items/".$menu_item->id;
-                return '<a class="" href=' . $view_url . '  title="View Menu Item" style="color:green"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $edit_url . '  title="Edit Menu" style="color:blue;margin-left: 1em;"><i class="material-icons">create</i></a><a class="" title="Delete Menu" style="color:red;margin-left:1em;" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)"> <i class="material-icons">delete_forever</i> </a>';
+                return '<a class="" href=' . $view_url . '  title="View Menu Item" style="color:green"><i class="material-icons">remove_red_eye</i></a><a class="" href=' . $menu_item_extras . '  title="Add extras" style="color:orange;margin-left:1em;"><i class="material-icons">add_circle_outline</i></a><a class="" href=' . $edit_url . '  title="Edit Menu" style="color:blue;margin-left: 1em;"><i class="material-icons">create</i></a><a class="" title="Delete Menu" style="color:red;margin-left:1em;" href="#" id="' . $delete_url . '" onclick="confirm_delete(this)"> <i class="material-icons">delete_forever</i> </a>';
             })->addColumn('vegan',function($item){
                 if($item->is_vegan==0){
                     return '<span class="badge badge-info">No</span>';
@@ -76,6 +78,12 @@ class MenuItemController extends Controller
             })
             ->rawColumns(['action','vegan','halaal','category'])
             ->make(true);
+    }
+
+    public function addExtras(MenuItem $menuItem){
+        $extras = Extra::where('vendor_id',Auth::user()->vendor->id)->get();
+
+        return view('extras.menu_item_add_extras',compact('menuItem','extras'));
     }
 
     /**

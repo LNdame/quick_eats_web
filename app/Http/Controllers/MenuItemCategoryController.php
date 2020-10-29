@@ -29,6 +29,10 @@ class MenuItemCategoryController extends Controller
         return response()->json(['menu_item_categories'=>$categories],200);
     }
 
+    public function getMenuItems(MenuItemCategory $menuItemCategory){
+        return response()->json(['menu_items'=>$menuItemCategory->menu_items],200);
+    }
+
     public function getMenuItemCategories(){
         $categories = MenuItemCategory::all();
 
